@@ -13,6 +13,6 @@ public class LibraryRequest {
     @Size(min = 1, max = 100)
     private String name;
 
-    @PastOrPresent(message = "Establishment date must not be in the future")
+    @PastOrPresent(message = "Establish date must not be in the future")
     private LocalDate establishDate;
 }

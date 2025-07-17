@@ -14,8 +14,6 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     //Get
-    //@GetMapping ("/")
-    //public String getMapping();
 
     //Post
     @PostMapping ("/add")

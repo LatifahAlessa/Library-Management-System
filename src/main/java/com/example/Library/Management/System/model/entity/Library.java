@@ -9,6 +9,7 @@ import java.util.*;
 @Entity
 @Data
 public class Library {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
