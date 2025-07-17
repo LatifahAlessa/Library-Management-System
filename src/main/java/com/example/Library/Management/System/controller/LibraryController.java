@@ -16,9 +16,9 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     //Get
-    @GetMapping("/viewAllLibraries")
-    public List<LibraryRequest> getMapping(){
-        return libraryService.viewAllLibraries();
+    @GetMapping("/viewLibraryById/{id}")
+    public LibraryRequest getMappingById(@PathVariable Integer id){
+        return libraryService.viewLibraryById(id);
     }
 
     //Post

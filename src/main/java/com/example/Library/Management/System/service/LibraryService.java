@@ -18,17 +18,12 @@ import java.util.Optional;
 public class LibraryService {
     private final LibraryRepository libraryRepository;
 
-    public List<LibraryRequest> viewAllLibraries() {
-        List<Library>  libraries = libraryRepository.findAll();
-        List<LibraryRequest> libraryRequests = new ArrayList<>();
-
-        for (Library library : libraries) {
-            LibraryRequest libraryRequest = new LibraryRequest();
-            libraryRequest.setName(library.getName());
-            libraryRequest.setEstablishDate(library.getEstablishDate());
-            libraryRequests.add(libraryRequest);
-        }
-        return libraryRequests;
+    public LibraryRequest viewLibraryById(Integer id) {
+        Optional<Library> library = libraryRepository.findById(Long.valueOf(id));
+        LibraryRequest libraryRequest = new LibraryRequest();
+        libraryRequest.setName(library.get().getName());
+        libraryRequest.setEstablishDate(library.get().getEstablishDate());
+        return libraryRequest;
     }
 
 }
