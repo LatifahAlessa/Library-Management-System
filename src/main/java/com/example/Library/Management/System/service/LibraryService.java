@@ -18,13 +18,6 @@ import java.util.Optional;
 public class LibraryService {
     private final LibraryRepository libraryRepository;
 
-    public void addLibrary(LibraryRequest request) {
-        Library library = new Library();
-        library.setName(request.getName());
-        library.setEstablishDate(request.getEstablishDate());
-        libraryRepository.save(library);
-    }
-
     public List<LibraryRequest> viewAllLibraries() {
         List<Library>  libraries = libraryRepository.findAll();
         List<LibraryRequest> libraryRequests = new ArrayList<>();

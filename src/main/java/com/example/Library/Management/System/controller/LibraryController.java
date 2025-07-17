@@ -21,13 +21,7 @@ public class LibraryController {
         return libraryService.viewAllLibraries();
     }
 
-
     //Post
-    @PostMapping ("/add")
-    public String postMapping(@Valid @RequestBody LibraryRequest request) {
-        libraryService.addLibrary (request);
-        return "Library is added successfully";
-    }
 
     //Put
 
