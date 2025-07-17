@@ -18,12 +18,13 @@ import java.util.Optional;
 public class LibraryService {
     private final LibraryRepository libraryRepository;
 
-    public LibraryRequest viewLibraryById(Integer id) {
-        Optional<Library> library = libraryRepository.findById(Long.valueOf(id));
-        LibraryRequest libraryRequest = new LibraryRequest();
-        libraryRequest.setName(library.get().getName());
-        libraryRequest.setEstablishDate(library.get().getEstablishDate());
-        return libraryRequest;
+    public String deleteLibraryById(Integer id) {
+        if (libraryRepository.existsById(Long.valueOf(id))) {
+            libraryRepository.deleteById(Long.valueOf(id));
+            return "Library Deleted Successfully";
+        }
+        else
+            return "Library Not Found";
     }
 
 }

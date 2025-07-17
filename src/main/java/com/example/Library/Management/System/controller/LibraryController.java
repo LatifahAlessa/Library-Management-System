@@ -16,14 +16,14 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     //Get
-    @GetMapping("/viewLibraryById/{id}")
-    public LibraryRequest getMappingById(@PathVariable Integer id){
-        return libraryService.viewLibraryById(id);
-    }
 
     //Post
 
     //Put
 
     //Delete
+    @DeleteMapping("/deleteLibrary/{id}")
+    public String deleteMapping(@PathVariable Integer id) {
+        return libraryService.deleteLibraryById(id);
+    }
 }
