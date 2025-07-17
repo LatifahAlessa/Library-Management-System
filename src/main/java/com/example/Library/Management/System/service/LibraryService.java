@@ -6,9 +6,11 @@ import com.example.Library.Management.System.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
-
 public class LibraryService {
     private final LibraryRepository libraryRepository;
 
@@ -22,4 +24,18 @@ public class LibraryService {
         library.setEstablishDate(request.getEstablishDate());
         return library;
     }
+
+    public List<LibraryRequest> viewAllLibraries() {
+        List<Library>  libraries = libraryRepository.findAll();
+        List<LibraryRequest> libraryRequests = new ArrayList<>();
+
+        for (Library library : libraries) {
+            LibraryRequest libraryRequest = new LibraryRequest();
+            libraryRequest.setName(library.getName());
+            libraryRequest.setEstablishDate(library.getEstablishDate());
+            libraryRequests.add(libraryRequest);
+        }
+        return libraryRequests;
+    }
+
 }

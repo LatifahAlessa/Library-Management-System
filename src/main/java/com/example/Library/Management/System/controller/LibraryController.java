@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping ("/library")
@@ -15,6 +17,10 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     //Get
+    @GetMapping("/viewAllLibraries")
+    public List<LibraryRequest> getMapping(){
+        return libraryService.viewAllLibraries();
+    }
 
     //Post
     @PostMapping ("/add")
