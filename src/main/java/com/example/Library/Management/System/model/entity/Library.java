@@ -16,14 +16,14 @@ public class Library {
     @Column
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    /*@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
-    private Manager manager;
+    private Manager manager;*/
 
     @Column
     private LocalDate establishDate;
 
-    @OneToMany (mappedBy = "library", cascade = CascadeType.ALL)
-    private Set<Book> books;
+    /*@OneToMany (mappedBy = "library", cascade = CascadeType.ALL)
+    private Set<Book> books;*/
 }
 
