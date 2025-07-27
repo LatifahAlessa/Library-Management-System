@@ -4,13 +4,17 @@ import com.example.Library.Management.System.dto.LibraryRequest;
 import com.example.Library.Management.System.model.entity.Library;
 import com.example.Library.Management.System.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+
 public class LibraryService {
     private final LibraryRepository libraryRepository;
 
@@ -36,6 +40,14 @@ public class LibraryService {
     }
 
     public LibraryRequest mapRequest (Library library) {
+        LibraryRequest libraryRequest = new LibraryRequest();
+        libraryRequest.setName(library.getName());
+        libraryRequest.setEstablishDate(library.getEstablishDate());
+        return libraryRequest;
+    }
+
+    public LibraryRequest viewLibraryById(Long id) {
+        Library library = libraryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The Library with ID " + id + " is not found"));
         LibraryRequest libraryRequest = new LibraryRequest();
         libraryRequest.setName(library.getName());
         libraryRequest.setEstablishDate(library.getEstablishDate());

@@ -13,13 +13,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping ("/library")
+
 public class LibraryController {
     private final LibraryService libraryService;
 
     //Get
     @GetMapping("/viewAllLibraries")
-    public List<LibraryRequest> getMapping(){
+    public List<LibraryRequest> getMapping() {
         return libraryService.viewAllLibraries();
+    }
+
+    @GetMapping("/viewLibraryById/{id}")
+    public LibraryRequest getMappingById(@PathVariable Long id){
+        return libraryService.viewLibraryById(id);
     }
 
     //Post
