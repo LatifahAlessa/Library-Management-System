@@ -5,6 +5,7 @@ import com.example.Library.Management.System.model.entity.Library;
 import com.example.Library.Management.System.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,6 +31,15 @@ public class LibraryService {
             libraryRequests.add(this.mapRequest(library));
         }
         return libraryRequests;
+    }
+
+    public ResponseEntity<?> deleteLibraryById(Long id) {
+        if (libraryRepository.existsById(id)) {
+            libraryRepository.deleteById(id);
+            return ResponseEntity.ok("Library Deleted Successfully");
+        }
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Library Not Found");
     }
 
     public Library map(LibraryRequest request) {

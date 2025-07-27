@@ -38,4 +38,8 @@ public class LibraryController {
     //Put
 
     //Delete
+    @DeleteMapping("/delete-Library/{id}")
+    public ResponseEntity<?> deleteMapping(@PathVariable Long id) {
+        return libraryService.deleteLibraryById(id);
+    }
 }
