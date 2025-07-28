@@ -1,67 +1,60 @@
 package com.example.Library.Management.System.service;
 
-import com.example.Library.Management.System.dto.LibraryRequest;
+import com.example.Library.Management.System.mapper.LibraryMapper;
+import com.example.Library.Management.System.mapper.UserMapper;
+import com.example.Library.Management.System.dto.LibraryDTO;
+import com.example.Library.Management.System.dto.LibrarySimpleDTO;
+import com.example.Library.Management.System.dto.UserDTO;
+import com.example.Library.Management.System.enums.RoleEnum;
 import com.example.Library.Management.System.model.entity.Library;
 import com.example.Library.Management.System.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-
 public class LibraryService {
     private final LibraryRepository libraryRepository;
+    private final UserService userService;
 
-    public void addLibrary(LibraryRequest request) {
-        libraryRepository.save(this.map(request));
+    public void addLibrary(LibraryDTO request) {
+        libraryRepository.save(LibraryMapper.mapLibraryDtoToLibrary(request));
     }
 
-    public List<LibraryRequest> viewAllLibraries() {
+    public List<LibrarySimpleDTO> viewAllLibraries() {
         List<Library>  libraries = libraryRepository.findAll();
-        List<LibraryRequest> libraryRequests = new ArrayList<>();
+        List<LibrarySimpleDTO> librarySimpleDTOS = new ArrayList<>();
 
         for (Library library : libraries) {
-            libraryRequests.add(this.mapRequest(library));
+            librarySimpleDTOS.add(LibraryMapper.mapLibraryToLibrarySimpleDto(library));
         }
-        return libraryRequests;
+        return librarySimpleDTOS;
     }
 
-    public ResponseEntity<?> deleteLibraryById(Long id) {
-        if (libraryRepository.existsById(id)) {
-            libraryRepository.deleteById(id);
-            return ResponseEntity.ok("Library Deleted Successfully");
-        }
-        else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Library Not Found");
+    public void deleteLibraryById(Long id) {
+        libraryRepository.deleteById(id);
     }
 
-    public Library map(LibraryRequest request) {
-        Library library = new Library();
-        library.setName(request.getName());
-        library.setEstablishDate(request.getEstablishDate());
-        return library;
-    }
-
-    public LibraryRequest mapRequest (Library library) {
-        LibraryRequest libraryRequest = new LibraryRequest();
-        libraryRequest.setName(library.getName());
-        libraryRequest.setEstablishDate(library.getEstablishDate());
-        return libraryRequest;
-    }
-
-    public LibraryRequest viewLibraryById(Long id) {
+    public LibraryDTO viewLibraryById(Long id) {
         Library library = libraryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The Library with ID " + id + " is not found"));
-        LibraryRequest libraryRequest = new LibraryRequest();
-        libraryRequest.setName(library.getName());
-        libraryRequest.setEstablishDate(library.getEstablishDate());
-        return libraryRequest;
+        LibraryDTO libraryDTO = LibraryMapper.mapLibraryToLibraryDto(library);
+        return libraryDTO;
     }
 
+    public void assignManagerToLibrary (Long libraryId, Long managerId) {//check if manager first
+        Library library = libraryRepository.findById(libraryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Library Not Found"));
+        if (library.getUser() != null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Library Manager is Already Assigned");
+        UserDTO userDTO = userService.getById(managerId);
+        if (userDTO.getRole() != RoleEnum.MANAGER)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User is not Manager");
+
+        library.setUser(UserMapper.mapUserDtoToUser(userDTO));
+        libraryRepository.save(library);
+    }
 }
