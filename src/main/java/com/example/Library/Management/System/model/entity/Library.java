@@ -1,5 +1,6 @@
 package com.example.Library.Management.System.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,7 +28,8 @@ public class Library {
     @Column
     private LocalDate establishDate;
 
-//    @OneToMany (mappedBy = "library", cascade = CascadeType.ALL)
-//    private Set<Book> books;
+    @ManyToMany (mappedBy = "libraries", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Book> books = new ArrayList<>();
 }
 

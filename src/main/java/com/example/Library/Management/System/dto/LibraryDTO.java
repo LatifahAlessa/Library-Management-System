@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class LibraryDTO {
@@ -22,4 +23,6 @@ public class LibraryDTO {
     private LocalDate establishDate;
 
     private UserDTO manager;
+
+    private List<BookDTO> books;
 }

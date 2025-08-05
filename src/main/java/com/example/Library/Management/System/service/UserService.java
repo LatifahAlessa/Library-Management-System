@@ -35,4 +35,10 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User Not Found"));
         return UserMapper.mapUserToUserDto(user);
     }
+
+    public User getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User Not Found"));
+        return user;
+    }
 }
+
