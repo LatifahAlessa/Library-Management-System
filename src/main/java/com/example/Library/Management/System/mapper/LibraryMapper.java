@@ -1,9 +1,14 @@
 package com.example.Library.Management.System.mapper;
 
+import com.example.Library.Management.System.dto.BookDTO;
 import com.example.Library.Management.System.dto.LibraryDTO;
 import com.example.Library.Management.System.dto.LibrarySimpleDTO;
 import com.example.Library.Management.System.dto.UserDTO;
+import com.example.Library.Management.System.model.entity.Book;
 import com.example.Library.Management.System.model.entity.Library;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LibraryMapper {
 
@@ -24,6 +29,15 @@ public class LibraryMapper {
         if (library.getUser() != null) {
             UserDTO userDTO = UserMapper.mapUserToUserDto(library.getUser());
             libraryDTO.setManager(userDTO);
+        }
+        if (library.getBooks() != null) {
+            List<Book> books = library.getBooks();
+            List<BookDTO> bookDTOs = new ArrayList<>();
+            for (Book book : books) {
+                BookDTO bookDTO = BookMapper.mapBookToBookDto(book);
+                bookDTOs.add(bookDTO);
+            }
+            libraryDTO.setBooks(bookDTOs);
         }
         return libraryDTO;
     }
